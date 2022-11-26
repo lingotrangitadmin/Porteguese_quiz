@@ -1,5 +1,6 @@
 import React, {useEffect, useState } from 'react'
 import shuffle from 'shuffle-array';
+import { useSpeechSynthesis } from 'react-speech-kit';
 import './Quiz.css'
 
 export const Quiz = () => {
@@ -7,6 +8,7 @@ export const Quiz = () => {
   const [randomQuestions , setRandomQuestions] = useState()
   const [correctAns, setCorrectAns] = useState()
   const [getValues, setGetValue] = useState([])
+  const { speak } = useSpeechSynthesis();
   const pronouns = {
     'i' : 'eu' ,
     'you' : 'tu',
@@ -17,13 +19,14 @@ export const Quiz = () => {
   }
  
   const userQuestions = {
-    'i speak' : 'falo',
-    'you speak' : 'falas',
-    'he speaks': 'fala',
+    // 'i speak' : 'falo',
+    // 'you speak' : 'falas',
+    // 'he speaks': 'fala',
     'we speak': 'falamous',
     'they speak' : 'falam',
     'she eats' : 'come',
-    'we ate' : 'comemos'
+    'we ate' : 'comemos',
+    'we party' : 'festa'
   }
 
   const nextQuestion = () => {
@@ -38,6 +41,10 @@ export const Quiz = () => {
   useEffect(() => {
     nextQuestion()
   },[])
+
+  useEffect(() => {
+    speak({ text: randomQuestions })
+  }, [randomQuestions])
 
 
   const getRandomOptions = (correctAns, question) => {
